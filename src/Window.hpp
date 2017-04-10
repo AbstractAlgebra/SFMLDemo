@@ -1,8 +1,10 @@
-#include <string>
-#include<SFML/Window.hpp>
-#include<SFML/Graphics.hpp>
 
-#ifndef window
+
+#ifndef window_hpp
+#define window_hpp
+#include <string>
+
+#include<SFML/Graphics.hpp>
 class Window
 {
 public:

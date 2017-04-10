@@ -1,3 +1,4 @@
+
 #include "Window.hpp"
 
 Window::Window()
@@ -71,4 +72,9 @@ void Window::endDraw()
 void Window::Draw(sf::Drawable& l_drawable)
 {
 	m_window.draw(l_drawable);
+}
+
+sf::Vector2u Window::getWindowSize()
+{
+	return m_windowSize;
 }
