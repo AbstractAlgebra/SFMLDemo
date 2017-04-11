@@ -15,6 +15,10 @@ Window::~Window()
 {
 	destroy();
 }
+sf::RenderWindow& Window::getRenderWindow()
+{
+	return m_window;
+}
 
 void Window::setup(const std::string& l_title, const sf::Vector2u& l_size)
 {
@@ -77,4 +81,9 @@ void Window::Draw(sf::Drawable& l_drawable)
 sf::Vector2u Window::getWindowSize()
 {
 	return m_windowSize;
+}
+
+bool Window::isDone()
+{
+	return m_isDone;
 }

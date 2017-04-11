@@ -11,10 +11,9 @@ public:
 	Window();
 	Window(const std::string& l_title, const sf::Vector2u& l_size);
 	~Window();
-
 	void beginDraw(); //clear the window
 	void endDraw(); //display the changes
-
+	sf::RenderWindow& getRenderWindow();
 	void update();
 
 

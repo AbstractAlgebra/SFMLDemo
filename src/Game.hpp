@@ -1,7 +1,8 @@
 #ifndef game_hpp
 #define game_hpp
 #include "Window.hpp"
-
+#include "World.hpp"
+#include "Snake.hpp"
 class Game
 {
 public:
@@ -13,13 +14,20 @@ public:
 	void render();
 	Window* getWindow();
 
+	sf::Time getElapsed();
+	void restartClock();
+
 private:
 
+	World m_world;
+	Snake m_snake;
 	void moveSmile();
 	Window m_window;
 	sf::Texture m_smileTexture;
 	sf::Sprite m_smile;
 	sf::Vector2i m_increment;
+	sf::Clock m_clock;
+	sf::Time m_elapsed;
 
 };
 

@@ -1,12 +1,13 @@
 #include "Game.hpp"
 #include "Window.hpp"
 
-Game::Game()
-	:m_window("Chapter 2", sf::Vector2u(800, 600))
+
+Game::Game() 
+	:m_window("Snake", sf::Vector2u(800, 600)),
+	m_snake(m_world.GetBlockSize()),	
+	m_world(sf::Vector2u(800, 600))
 {
-	m_smileTexture.loadFromFile("resources/img/smile.png");
-	m_smile.setTexture(m_smileTexture);
-	m_increment = sf::Vector2i(1, 1);
+
 }
 Game::~Game()
 {
@@ -15,11 +16,20 @@ Game::~Game()
 void Game::update()
 {
 	m_window.update();
-	moveSmile();
+	float timestep = 1.0f / m_snake.getSpeed();
+	if (m_elapsed.asSeconds() >= timestep) {
+		m_snake.tick();
+		m_world.update(m_snake);
+		m_elapsed -= sf::seconds(timestep);
+		if (m_snake.hasLost()) {
+			m_snake.reset();
+		}
+	}
 }
 
 void Game::moveSmile()
 {
+	float fElapsed = m_elapsed.asMicroseconds();
 	sf::Vector2u l_windSize = m_window.getWindowSize();
 	sf::Vector2u l_texSize = m_smileTexture.getSize();
 
@@ -31,12 +41,54 @@ void Game::moveSmile()
 	{
 		m_increment.y = -m_increment.y;
 	}
-	m_smile.setPosition(m_smile.getPosition().x + m_increment.x, m_smile.getPosition().y + m_increment.y);
+	m_smile.setPosition(m_smile.getPosition().x + m_increment.x * fElapsed, m_smile.getPosition().y + m_increment.y * fElapsed);
 }
 
 void Game::render()
 {
 	m_window.beginDraw();
-	m_window.Draw(m_smile);
+
+	m_world.render(m_window.getRenderWindow());
+	m_snake.render(m_window.getRenderWindow());
+
 	m_window.endDraw();
+}
+
+sf::Time Game::getElapsed()
+{
+	return m_elapsed;
+}
+
+void Game::restartClock()
+{
+	m_elapsed += m_clock.restart();
+}
+
+Window* Game::getWindow()
+{
+	return &m_window;
+}
+
+void Game::handleInput()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+		&& m_snake.getDirection() != Direction::Down)
+	{
+		m_snake.setDirection(Direction::Up);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+		&& m_snake.getDirection() != Direction::Up)
+	{
+		m_snake.setDirection(Direction::Down);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+		&& m_snake.getDirection() != Direction::Right)
+	{
+		m_snake.setDirection(Direction::Left);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+		&& m_snake.getDirection() != Direction::Left)
+	{
+		m_snake.setDirection(Direction::Right);
+	}
 }

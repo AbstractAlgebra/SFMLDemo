@@ -4,10 +4,14 @@ void main(int argc, char** argv[])
 {
 
 	Game game;
-	while (true)
+	game.getWindow();
+	while (!game.getWindow()->isDone())
 	{
+		//Game loop
+		game.handleInput();
 		game.update();
 		game.render();
+		game.restartClock();
 	}
 
 }
