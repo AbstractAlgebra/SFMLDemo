@@ -3,6 +3,7 @@
 #include "Window.hpp"
 #include "World.hpp"
 #include "Snake.hpp"
+#include "Textbox.hpp"
 class Game
 {
 public:
@@ -23,6 +24,7 @@ private:
 	Snake m_snake;
 	void moveSmile();
 	Window m_window;
+	Textbox m_textbox;
 	sf::Texture m_smileTexture;
 	sf::Sprite m_smile;
 	sf::Vector2i m_increment;

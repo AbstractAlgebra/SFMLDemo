@@ -1,13 +1,15 @@
 #include "Game.hpp"
 #include "Window.hpp"
+#include "Textbox.hpp"
 
-
-Game::Game() 
+Game::Game()
 	:m_window("Snake", sf::Vector2u(800, 600)),
-	m_snake(m_world.GetBlockSize()),	
+	m_snake(m_world.GetBlockSize()),
+	m_textbox(),
 	m_world(sf::Vector2u(800, 600))
 {
-
+	m_textbox.setup(5, 14, 350, sf::Vector2f(225, 0));
+	m_textbox.add("Seeded random number generator with: " + std::to_string(time(NULL)));
 }
 Game::~Game()
 {
@@ -50,6 +52,7 @@ void Game::render()
 
 	m_world.render(m_window.getRenderWindow());
 	m_snake.render(m_window.getRenderWindow());
+	m_textbox.render(m_window.getRenderWindow());
 
 	m_window.endDraw();
 }
